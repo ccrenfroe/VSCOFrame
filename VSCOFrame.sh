@@ -28,12 +28,15 @@ display_image()
 
 show_slideshow()
 {
-	if [ $1 = "-s"]
-	then
-		eog --fullscreen --slide-show $1
-	else
-		eog --fullscreen --slide-show
-	fi
+	eog --fullscreen --slide-show $1
+	#echo $1
+	#echo $2
+	#if [ "$2" == "1" ]; 
+	#then
+		#eog --fullscreen --slide-show $1 $2
+	#else
+	   # eog --fullscreen --slide-show $1
+	#fi
 }
 
 main()
@@ -64,10 +67,10 @@ main()
 			-s|--slideshow)
 			shift
 			show_slideshow $1
+			shift
 			;;
 		esac
 	done
 }
 
-echo $@
 main $@
