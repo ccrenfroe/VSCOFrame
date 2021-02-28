@@ -3,13 +3,16 @@
 
 #!/bin/bash
 
+# Install reqs and setup VSCOFrame
 install_reqs()
 {
+	mkdir ./VSCOProfiles
 	python3 -m pip install -r requirements.txt
 	apt install eog
 	sudo apt-get install eog-plugins -y
 }
 
+# Command usage output
 help_me()
 {
 	# Display Help
@@ -25,7 +28,9 @@ help_me()
 # Scrape all images on a given users profile
 get_images()
 {
+	cd ./VSCOProfiles
 	vsco-scraper $1 --getImages
+	cd ..
 }
 
 # Display a single image specified by a file path
