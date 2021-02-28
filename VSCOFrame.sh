@@ -1,3 +1,6 @@
+# Caleb Renfroe
+# Bash script that uses functionality from the vsco-scraper python package and the eye of gnome program.
+
 #!/bin/bash
 
 install_reqs()
@@ -12,31 +15,35 @@ help_me()
 	# Display Help
 	echo "Script to display slideshow of pictures taken from VSCO"
 	echo
-	echo "-i, --install				install requirements for the program to run"
+	echo "-h, --help 				Display list of commands"
+	echo "-i, --install				Install requirements for the program to run"
 	echo "-g, --get-image				Download images from a specified users profile"
+	echo "-s, --slide-show 			Display a slideshow of images from a specified directory"
+	echo
 }
 
+# Scrape all images on a given users profile
 get_images()
 {
 	vsco-scraper $1 --getImages
 }
 
+# Display a single image specified by a file path
 display_image()
 {
-	eog --fullscreen $1
+	if test -f "$1"; 
+	then
+		eog --fullscreen $1
+	else
+		echo "Image does not exist"
+		exit 1
+	fi
 }
 
+# Displays directory of images in a random order
 show_slideshow()
 {
 	eog --fullscreen --slide-show $1
-	#echo $1
-	#echo $2
-	#if [ "$2" == "1" ]; 
-	#then
-		#eog --fullscreen --slide-show $1 $2
-	#else
-	   # eog --fullscreen --slide-show $1
-	#fi
 }
 
 main()
@@ -60,14 +67,19 @@ main()
 			shift # remove argument value
 			;;
 			-d|--display-image)
-			shift
+			shift # remove flag
 			display_image $1
 			shift
 			;;
 			-s|--slideshow)
-			shift
+			shift # remove flag
 			show_slideshow $1
 			shift
+			;;
+			# Garbage input
+			*)
+			help_me
+			exit 1
 			;;
 		esac
 	done
